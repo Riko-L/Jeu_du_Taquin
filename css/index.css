@@ -1,0 +1,51 @@
+#jeu_taquin{
+display: flex;
+flex-direction: column;
+justify-items: center;
+justify-content: center;
+
+}
+
+#t_taquin{
+    background-color:darkgrey;
+    padding: 3px;
+    border-radius: 10px;
+    width: 500px;
+}
+
+.t_row{
+    height: 100px;
+    color: azure;
+    font-size: 30px;
+    
+}
+.t_col{
+    width: 100px;
+    text-align: center;
+    border: 5px solid black;
+    border-radius: 10px;
+}
+
+._btn{
+    width: 150px;
+    padding: 10px;
+    margin-top : 30px;
+}
+.info_war{
+    border: 2px solid red;
+    background-color: tomato;
+    color: white;
+    text-align: center;
+    font-size: 15px;
+    width: 500px;
+    height: auto;
+}
+.info_val{
+    border: 2px solid springgreen;
+    background-color:seagreen;
+    color: white;
+    text-align: center;
+    font-size: 15px;
+    width: 500px;
+    height: auto;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Jeu du Taquin</title>
+    <script src="/lib/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+    <h1> Jeu du Taquin </h1>
+    <div id="jeu_taquin">
+        <table id="t_taquin">
+            <tr class="t_row">
+                <td class="t_col" id="data_0"></td>
+                <td class="t_col" id="data_1"></td>
+                <td class="t_col" id="data_2"></td>
+            </tr>
+            <tr class="t_row">
+                <td class="t_col" id="data_3"></td>
+                <td class="t_col" id="data_4"></td>
+                <td class="t_col" id="data_5"></td>
+            </tr>
+            <tr class="t_row">
+                <td class="t_col" id="data_6"></td>
+                <td class="t_col" id="data_7"></td>
+                <td class="t_col" id="data_8"></td>
+            </tr>
+        </table>
+        <span>
+            <button class="_btn" id="random_btn">Mélanger</button>
+            <button class="_btn" id="init_btn" >Initialiser</button>
+            <button class="_btn" id="resolvable_btn">Résolvable ?</button>
+            <button class="_btn" id="resolve_btn">Résoudre</button>
+        </span>
+    </div>
+    <script src="/js/index.js"></script>
+</body>
+
+</html>
