@@ -2,9 +2,11 @@ function loadData(data) {
     for (i = 0; i < data.length; i++) {
         if (data[i] == 9) {
             $("#data_" + i).html(" ");
+            $("#data_" + i).attr('data-index', i);
             $("#data_" + i).css("background-color", "cadetblue");
         } else {
             $("#data_" + i).html(data[i]);
+            $("#data_" + i).attr('data-index', i);
             $("#data_" + i).css("background-color", "darkmagenta");
         }
     }
@@ -44,10 +46,10 @@ function isResolvable() {
     }
 }
 
-function swap(A, B) {
-    var tmp = data_table[A];
-    data_table[A] = data_table[B];
-    data_table[B] = tmp;
+function swap(data, A, B) {
+    var tmp = data[A];
+    data[A] = data[B];
+    data[B] = tmp;
 }
 
 function isBigger(A, B) {
@@ -55,46 +57,50 @@ function isBigger(A, B) {
 }
 
 
-function resolve() {
+function resolve(data, data_goal) {
 
     var origin;
-
-    for (i = 0; i < data_table.length; ++i) {
-        if (data_table[i] == 9) {
+    var depth = 0;
+    var results = [];
+    for (i = 0; i < data.length; ++i) {
+        if (data[i] == 9) {
             origin = i;
             break;
         }
     }
 
-    search_dsf(origin, 0, -1);
+    search_dsf(data, data_goal, origin, depth, -1);
 
     for (i = 0; i < best_depth; ++i) {
         console.log("move[" + i + "] = " + best_moves[i]);
+        results.push(best_moves[i]);
     }
 
+    return results;
 }
 
-function isCorrect() {
+function isCorrect(data, data_goal) {
 
-    for (i = 0; i < data_table.length; ++i) {
-        if (data_table[i] != data_init[i])
+    for (i = 0; i < data.length; ++i) {
+        if (data[i] != data_goal[i])
             return false;
     }
 
     return true;
 }
 
-function search_dsf(origin, depth, played) {
+function search_dsf(data, data_goal, origin, depth, played) {
+
 
     if (depth >= best_depth) {
         return;
     }
 
     if (depth != 0) {
-        move[depth - 1] = data_table[played];
+        move[depth - 1] = data[played];
     }
 
-    if (isCorrect()) {
+    if (isCorrect(data, data_goal)) {
         console.log("Solution trouvé avec : [" + depth + "] déplacements");
         best_depth = depth;
 
@@ -104,62 +110,79 @@ function search_dsf(origin, depth, played) {
         return true;
     }
 
-    var left = origin + 1;
-    var right = origin - 1;
+    var left = origin - 1;
+    var right = origin + 1;
     var up = origin - 3;
     var down = origin + 3;
 
-       if (left == played) left = -1;
-       if (right == played) right = -1;
-       if (up == played) up = -1;
-       if (down == played) down = -1;
+    if (left == played) left = -1;
+    if (right == played) right = -1;
+    if (up == played) up = -1;
+    if (down == played) down = -1;
 
-    if (left > 0 && left < data_table.length) {
-        swap(origin, left);
+    if (left >= 0 && left <= data.length && left % 3 != 2) {
+        swap(data, origin, left);
         //  console.log("LEFT "  + data_table + " depth >> " + depth);
-        search_dsf(left, ++depth, origin)
-        swap(origin, left);
+        search_dsf(data, data_goal, left, depth + 1, origin)
+        swap(data, origin, left);
         //  console.log("LEFT "  + data_table + " depth >> " + depth);
     }
-    if (right > 0 && right < data_table.length) {
-        swap(origin, right);
+    if (right >= 0 && right <= data.length && right % 3 != 0) {
+        swap(data, origin, right);
         //  console.log("RIGHT "  + data_table + " depth >> " + depth);
-         search_dsf(right, ++depth, origin)
+        search_dsf(data, data_goal, right, depth + 1, origin)
 
-        swap(origin, right);
+        swap(data, origin, right);
         //  console.log("RIGHT "  + data_table + " depth >> " + depth);
     }
-    if (up > 0 && up < data_table.length) {
-        swap(origin, up);
+    if (up >= 0 && up <= data.length - 1) {
+        swap(data, origin, up);
         //  console.log("UP "  + data_table + " depth >> " + depth);
-        search_dsf(up, ++depth, origin)
-        swap(origin, up);
+        search_dsf(data, data_goal, up, depth + 1, origin)
+        swap(data, origin, up);
         //   console.log("UP "  + data_table + " depth >> " + depth);
     }
-    if (down > 0 && down < data_table.length) {
-        swap(origin, down);
+    if (down >= 0 && down <= data.length - 1) {
+        swap(data, origin, down);
         //   console.log("DOWN "  + data_table + " depth >> " + depth);
-        search_dsf(down, ++depth);
-        swap(origin, down);
+        search_dsf(data, data_goal, down, depth + 1, origin);
+        swap(data, origin, down);
         //   console.log("DOWN "  + data_table + " depth >> " + depth);
     }
 }
 
 
+function swapElement(el) {
+    var origin;
+    var index = el.data('index');
+    for (i = 0; i < data_table.length; i++) {
+        if (data_table[i] == 9) {
+            origin = i;
+            break;
+        }
+    }
+
+    swap(data_table, origin, index);
+
+    loadData(data_table);
+
+}
+
 $(document).ready(function () {
 
-    MAX_DEPTH = 50;
+    MAX_DEPTH = 100;
     move = new Array(MAX_DEPTH);
     best_moves = new Array(MAX_DEPTH);
     best_depth = MAX_DEPTH;
 
-    data_init = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    data_table = data_init.concat();
+
+    var data_init = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var data_table = data_init.concat();
+    data_table = randomData(data_table);
 
 
-    data_table = [1, 2, 3, 9, 5, 6, 4, 7, 8] ;//randomData(data_table);
 
-    loadData(data_table);
+
 
     while (!isResolvable().resolvable) {
         data_table = randomData(data_table);
@@ -175,9 +198,7 @@ $(document).ready(function () {
         loadData(data_init);
     });
 
-    $('#resolve_btn').on('click', function () {
-        resolve();
-    });
+
 
     $('#resolvable_btn').on('click', function () {
         var response = isResolvable()
@@ -207,6 +228,25 @@ $(document).ready(function () {
                 $(this).css("background-color", "cadetblue");
             }
         });
+
+
+    $('#t_taquin td').on('click', function () {
+        swapElement($(this));
+    });
+
+
+    $('#resolve_btn').on('click', function () {
+        var results = resolve(data_table, data_init);
+        console.log(data_table);
+        let i = 0;
+        let stop = setInterval(function() {
+            $('#data_' + data_table.indexOf(results[i])).trigger('click');
+            i++
+            if(i === results.length) {
+                stop;
+            }
+        }, 1000);
+    });
 
     $('#resolvable_btn').trigger('click');
 
