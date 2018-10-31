@@ -1,51 +1,97 @@
-#jeu_taquin{
-display: flex;
-flex-direction: column;
-justify-items: center;
-justify-content: center;
-
+#jeu_taquin {
+    width: 800px;
+    margin: 0 auto;
 }
 
-#t_taquin{
-    background-color:darkgrey;
-    padding: 3px;
-    border-radius: 10px;
-    width: 500px;
-}
-
-.t_row{
-    height: 100px;
-    color: azure;
-    font-size: 30px;
-    
-}
-.t_col{
-    width: 100px;
+h1 {
     text-align: center;
-    border: 5px solid black;
-    border-radius: 10px;
+    color: rgb(10, 113, 145);
 }
 
-._btn{
-    width: 150px;
-    padding: 10px;
-    margin-top : 30px;
+
+td:hover {
+    background-color: rgb(18, 69, 78) !important;
 }
-.info_war{
+
+td {
+    position: relative;
+    background-color: rgb(10, 113, 145) !important;
+}
+
+button:hover {
+    background-color: rgb(10, 113, 145);
+}
+
+button {
+    background-color: seagreen;
+}
+
+span {
+    display: flex;
+    justify-content: space-around;
+    width: 800px;
+    margin: 0 auto;
+}
+
+#t_taquin {
+    background-color: darkgrey;
+    padding: 35px;
+    border-radius: 10px;
+    width: 800px;
+
+}
+
+.imgLogo {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    top: 0px
+}
+
+.cover {
+    object-fit: fill;
+    width: 100%;
+    height: 100%;
+}
+
+.t_col {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    border: 2px solid black;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+
+}
+
+._btn {
+    width: 120px;
+    padding: 10px;
+    margin-top: 30px;
+    border-radius: 5px;
+}
+
+.info_war {
     border: 2px solid red;
     background-color: tomato;
     color: white;
     text-align: center;
     font-size: 15px;
-    width: 500px;
+    width: 800px;
+    border-radius: 15px;
     height: auto;
 }
-.info_val{
+
+.info_val {
     border: 2px solid springgreen;
-    background-color:seagreen;
+    background-color: seagreen;
     color: white;
     text-align: center;
     font-size: 15px;
-    width: 500px;
+    width: 800px;
+    border-radius: 15px;
     height: auto;
 }
